@@ -6,12 +6,8 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden bg-brand-navy py-24 text-white sm:py-32">
       <div
-        className="pointer-events-none absolute inset-0 opacity-30"
+        className="hero-lights pointer-events-none absolute inset-0"
         aria-hidden="true"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 20% 50%, #00A86B33 0%, transparent 50%), radial-gradient(circle at 80% 20%, #00A86B22 0%, transparent 40%)",
-        }}
       />
       <Container as="div" className="relative text-center">
         <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-brand-green">

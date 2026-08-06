@@ -1,51 +1,55 @@
 import Link from "next/link";
-import { Container } from "./Container";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
+import { ArrowUpRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type ButtonProps = {
-  href?: string;
-  children: React.ReactNode;
-  variant?: "primary" | "secondary" | "outline";
+  children: ReactNode;
   className?: string;
-  type?: "button" | "submit";
-  onClick?: () => void;
-  disabled?: boolean;
+  href?: string;
+  variant?: "primary" | "secondary" | "ghost" | "outline";
+  size?: "sm" | "md" | "lg";
+  showIcon?: boolean;
+} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className" | "children">;
+
+const variants = {
+  primary:
+    "bg-evergreen text-white shadow-elevation-xs hover:bg-evergreen-deep hover:shadow-elevation-sm",
+  secondary: "bg-ink text-white hover:bg-evergreen-deep",
+  ghost: "bg-transparent text-ink hover:bg-ink/6",
+  outline: "border border-line-strong bg-transparent text-ink hover:border-ink hover:bg-ink hover:text-white",
 };
 
-const variantStyles = {
-  primary:
-    "bg-brand-green text-white hover:bg-brand-green-light shadow-lg shadow-brand-green/20",
-  secondary: "bg-brand-navy text-white hover:bg-brand-navy-light",
-  outline:
-    "border-2 border-brand-green text-brand-green hover:bg-brand-green hover:text-white",
+const sizes = {
+  sm: "min-h-9 gap-1.5 px-3.5 text-xs",
+  md: "min-h-11 gap-2 px-5 text-sm",
+  lg: "min-h-13 gap-2.5 px-6 text-sm",
 };
 
 export function Button({
-  href,
   children,
+  className,
+  href,
   variant = "primary",
-  className = "",
+  size = "md",
+  showIcon = false,
   type = "button",
-  onClick,
-  disabled = false,
+  ...props
 }: ButtonProps) {
-  const styles = `inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green disabled:cursor-not-allowed disabled:opacity-50 ${variantStyles[variant]} ${className}`;
-
-  if (href) {
-    return (
-      <Link href={href} className={styles}>
-        {children}
-      </Link>
-    );
-  }
-
-  return (
-    <button
-      type={type}
-      className={styles}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      {children}
-    </button>
+  const styles = cn(
+    "group/button relative inline-flex items-center justify-center rounded-full font-semibold transition-[background-color,border-color,color,box-shadow,transform] duration-[var(--duration-base)] ease-[var(--ease-out)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50",
+    variants[variant],
+    sizes[size],
+    className,
   );
+  const content = (
+    <>
+      {children}
+      {showIcon ? <ArrowUpRight aria-hidden="true" className="size-4 transition-transform duration-[var(--duration-base)] ease-[var(--ease-out)] group-hover/button:translate-x-0.5 group-hover/button:-translate-y-0.5 group-active/button:translate-x-0 group-active/button:translate-y-0" /> : null}
+    </>
+  );
+
+  if (href) return <Link href={href} className={styles}>{content}</Link>;
+
+  return <button type={type} className={styles} {...props}>{content}</button>;
 }

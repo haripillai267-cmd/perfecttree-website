@@ -1,32 +1,35 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Manrope } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { SmoothScroll } from "@/components/providers/SmoothScroll";
+import { PageTransition } from "@/components/ui/PageTransition";
 import { createMetadata } from "@/lib/metadata";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = createMetadata({});
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="flex min-h-full flex-col">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+    <html lang="en" className={`${manrope.variable} ${inter.variable}`}>
+      <body className="flex min-h-screen flex-col overflow-x-clip">
+        <SmoothScroll>
+          <Header />
+          <PageTransition>{children}</PageTransition>
+          <Footer />
+        </SmoothScroll>
       </body>
     </html>
   );

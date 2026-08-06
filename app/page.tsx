@@ -1,15 +1,5 @@
-import { CTASection } from "@/components/home/CTASection";
-import { Hero } from "@/components/home/Hero";
-import { ServicesPreview } from "@/components/home/ServicesPreview";
-import { StatsSection } from "@/components/home/StatsSection";
+import { BusinessImpact, Expertise, FinalCta, GlobalPresence, HomeHero, InsightsPreview, OurApproach, WhoWeAre, WhyPerfectTree } from "@/components/home/HomeSections";
 
 export default function Home() {
-  return (
-    <>
-      <Hero />
-      <StatsSection />
-      <ServicesPreview />
-      <CTASection />
-    </>
-  );
+  return <><HomeHero /><GlobalPresence /><WhoWeAre /><Expertise /><WhyPerfectTree /><BusinessImpact /><OurApproach /><InsightsPreview /><FinalCta /></>;
 }
